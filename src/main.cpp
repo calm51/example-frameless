@@ -229,7 +229,8 @@ int main(int argc, char *argv[]){
     a.setWindowIcon(QIcon(":/resource/icon/main.ico"));
 
     Frameless::__global__ & fg = Frameless::G();
-    //    fg.theme_config[Frameless::Theme::Light].round4 = {28,28,6,6};
+    //    fg.theme_config[Frameless::Theme::White].round4 = {28,28,0,0};
+    //    fg.theme_config[Frameless::Theme::Light].round4 = {15,15,0,0};
     //    fg.theme_config[Frameless::Theme::Dark].round4 = {0,0,0,0};
     //    fg.theme_config[Frameless::Theme::Gray].round4 = {0,0,0,0};
     fg.swithTheme(Frameless::Theme::White);
