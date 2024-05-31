@@ -146,11 +146,11 @@ endif()
 
 # =============================================
 if (ANDROID)
-    set(qtandroidcls_include ${CMAKE_CURRENT_SOURCE_DIR}/include)
+    set(qtandroidcls_include ${CMAKE_CURRENT_SOURCE_DIR}/../qtandroidcls/output/include)
     include_directories(${qtandroidcls_include})
 
     set(qtandroidcls_platform "android")
-    set(qtandroidcls_lib_dir ${CMAKE_CURRENT_SOURCE_DIR}/lib/${qtandroidcls_platform}/qtandroidcls)
+    set(qtandroidcls_lib_dir ${CMAKE_CURRENT_SOURCE_DIR}/../qtandroidcls/output/lib/${qtandroidcls_platform}/qtandroidcls)
     set(qtandroidcls_lib ${qtandroidcls_lib_dir}/libqtandroidcls_armeabi-v7a.so)
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
