@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=application
+Icon=/home/software/application/application.ico
+Exec=/home/software/application/application
+Path=/home/software/application
+Comment=
+Terminal=false
