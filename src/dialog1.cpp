@@ -17,12 +17,12 @@ Dialog1::Dialog1(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    //#ifdef Q_OS_ANDROID
-    //    QtAndroidCls *qac = QtAndroidCls::instance();
-    //    connect(qac,&QtAndroidCls::statusbarHeightChanged, this,[=](const qint32 &height){
-    //        if (fl && height > 4){ fl->titlebar_MinimumHeight = height;if (fl->titlebar_widget){ fl->titlebar_widget->setFixedHeight(fl->titlebar_MinimumHeight);}}
-    //    });
-    //#endif
+#ifdef Q_OS_ANDROID
+    QtAndroidCls *qac = QtAndroidCls::instance();
+    connect(qac,&QtAndroidCls::statusbarHeightChanged, this,[=](const qint32 &height){
+        if (fl && height > 4){ fl->titlebar_MinimumHeight = height;if (fl->titlebar_widget){ fl->titlebar_widget->setFixedHeight(fl->titlebar_MinimumHeight);}fl->load();}
+    });
+#endif
 
     Frameless::__global__ & fg = Frameless::G();
     connect(&fg.SIGNAL,&Frameless::__signal__::themeChanged,this,[=](){

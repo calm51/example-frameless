@@ -24,6 +24,14 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+#ifdef Q_OS_ANDROID
+    QtAndroidCls *qac = QtAndroidCls::instance();
+    connect(qac,&QtAndroidCls::statusbarHeightChanged, this,[=](const qint32 &height){
+        qDebug()<<"heightheightheight"<<height;
+        if (fl && height > 4){ fl->titlebar_MinimumHeight = height;if (fl->titlebar_widget){ fl->titlebar_widget->setFixedHeight(fl->titlebar_MinimumHeight);}fl->load();}
+    });
+#endif
+
     connect(ui->pushButton_2, &QPushButton::clicked, this, [=](){
         Frameless::__global__ & fg = Frameless::G();
         if (fg.currentTheme==Frameless::Theme::Light){
