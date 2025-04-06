@@ -107,41 +107,11 @@ add_definitions(-D_HAS_STD_BYTE=0)
 
 # =============================================
 
+include("../qtturnblack/output/includeme.cmake")
 
-set(frameless_include ${CMAKE_CURRENT_SOURCE_DIR}/../frameless/output/include)
-#get_filename_component(frameless_include "${frameless_include}" ABSOLUTE)
-include_directories(${frameless_include})
+include("../frameless/output/includeme.cmake")
 
-if (WIN32)
-    if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-        set(frameless_platform "win32msvc")
-    elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        set(frameless_platform "win32mingw")
-    endif()
-    set(frameless_lib_dir ${CMAKE_CURRENT_SOURCE_DIR}/../frameless/output/lib/${frameless_platform}/frameless)
-    #link_directories(${frameless_lib_dir})
-    target_link_directories(${PROJECT_NAME} PRIVATE ${frameless_lib_dir})
-    target_link_libraries(${PROJECT_NAME} PRIVATE frameless)
-    #    set(frameless_lib ${frameless_lib_dir}/frameless.lib)
-    #    target_link_libraries(${PROJECT_NAME} PRIVATE ${frameless_lib})
-elseif (ANDROID)
-    set(frameless_platform "android")
-    set(frameless_lib_dir ${CMAKE_CURRENT_SOURCE_DIR}/../frameless/output/lib/${frameless_platform}/frameless)
-    set(frameless_lib ${frameless_lib_dir}/libframeless_armeabi-v7a.so)
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${frameless_lib}" "${CMAKE_CURRENT_BINARY_DIR}/android-build/libs/${ANDROID_ABI}/libframeless_armeabi-v7a.so")
-    #    target_link_libraries(${PROJECT_NAME} PRIVATE ${frameless_lib})
-    target_link_directories(${PROJECT_NAME} PRIVATE ${frameless_lib_dir})
-    target_link_libraries(${PROJECT_NAME} PRIVATE "frameless_armeabi-v7a")
-
-elseif (UNIX AND NOT APPLE AND NOT WIN32 AND NOT ANDROID)
-    set(frameless_platform "linux64")
-    set(frameless_lib_dir ${CMAKE_CURRENT_SOURCE_DIR}/../frameless/output/lib/${frameless_platform}/frameless)
-    target_link_directories(${PROJECT_NAME} PRIVATE ${frameless_lib_dir})
-    target_link_libraries(${PROJECT_NAME} PRIVATE frameless)
-
-endif()
+include("../qtgllogger/output/includeme.cmake")
 
 
 # =============================================

@@ -1,10 +1,9 @@
 #include "maintitlebarbutton.h"
 #include "ui_maintitlebarbutton.h"
 
-Maintitlebarbutton::Maintitlebarbutton(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::Maintitlebarbutton)
-{
+Maintitlebarbutton::Maintitlebarbutton(QWidget *parent)
+    : QWidget(parent)
+    , ui(new Ui::Maintitlebarbutton) {
     ui->setupUi(this);
 
     this->setStyleSheet(R"(
@@ -24,7 +23,6 @@ QToolButton:pressed {
 )");
 }
 
-Maintitlebarbutton::~Maintitlebarbutton()
-{
+Maintitlebarbutton::~Maintitlebarbutton() {
     delete ui;
 }

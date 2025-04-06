@@ -7,15 +7,14 @@ namespace Ui {
 class Maintitlebarbutton;
 }
 
-class Maintitlebarbutton : public QWidget
-{
+class Maintitlebarbutton : public QWidget {
     Q_OBJECT
 
-public:
+  public:
     explicit Maintitlebarbutton(QWidget *parent = nullptr);
     ~Maintitlebarbutton();
 
-private:
+  private:
     Ui::Maintitlebarbutton *ui;
 };
 

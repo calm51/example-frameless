@@ -3,66 +3,72 @@
 
 #include "./dialog1.h"
 
-#include "frameless/frameless.h"
 #include "frameless/__frameless_include__.h"
-#include "frameless/titlebar/titlebarlikewindows10.h"
+#include "frameless/frameless.h"
 #include "frameless/titlebar/titlebarlikeandroid.h"
+#include "frameless/titlebar/titlebarlikewindows10.h"
 #include "frameless/utils.h"
 
 #if defined Q_OS_ANDROID
 #include "QtAndroid"
-#include <QtAndroidExtras>
-#include <QAndroidJniObject>
 #include <QAndroidJniEnvironment>
+#include <QAndroidJniObject>
+#include <QtAndroidExtras>
 
 #include <qtandroidcls/qtandroidcls.h>
 #endif
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
-{
+    , ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
 #ifdef Q_OS_ANDROID
     QtAndroidCls *qac = QtAndroidCls::instance();
-    connect(qac,&QtAndroidCls::statusbarHeightChanged, this,[=](const qint32 &height){
-        qDebug()<<"heightheightheight"<<height;
-        if (fl && height > 4){ fl->titlebar_MinimumHeight = height;if (fl->titlebar_widget){ fl->titlebar_widget->setFixedHeight(fl->titlebar_MinimumHeight);}fl->load();}
+    connect(qac, &QtAndroidCls::statusbarHeightChanged, this, [=](const qint32 &height) {
+        qDebug() << "heightheightheight" << height;
+        if (fl && height > 4) {
+            fl->titlebar_MinimumHeight = height;
+            if (fl->titlebar_widget) {
+                fl->titlebar_widget->setFixedHeight(fl->titlebar_MinimumHeight);
+            }
+            fl->load();
+        }
     });
 #endif
 
-    connect(ui->pushButton_2, &QPushButton::clicked, this, [=](){
-        Frameless::__global__ & fg = Frameless::G();
-        if (fg.currentTheme==Frameless::Theme::Light){
+    connect(ui->pushButton_2, &QPushButton::clicked, this, [=]() {
+        Frameless::__global__ &fg = Frameless::G();
+        if (fg.currentTheme == Frameless::Theme::Light) {
             fg.swithTheme(Frameless::Theme::Dark);
-        }else if (fg.currentTheme==Frameless::Theme::Dark){
+        } else if (fg.currentTheme == Frameless::Theme::Dark) {
             fg.swithTheme(Frameless::Theme::White);
-        }else if (fg.currentTheme==Frameless::Theme::White){
+        } else if (fg.currentTheme == Frameless::Theme::White) {
             fg.swithTheme(Frameless::Theme::Gray);
-        }else if (fg.currentTheme==Frameless::Theme::Gray){
+        } else if (fg.currentTheme == Frameless::Theme::Gray) {
             fg.swithTheme(Frameless::Theme::Light);
         }
     });
 
-    connect(ui->pushButton, &QPushButton::clicked, this, [=](){
-        Dialog1* dialog1 = new Dialog1(this);
+    connect(ui->pushButton, &QPushButton::clicked, this, [=]() {
+        Dialog1 *dialog1 = new Dialog1(this);
         dialog1->setWindowTitle(tr("new Dialog1"));
         dialog1->setWindowIcon(QIcon(":/resource/icon/main.ico"));
 
-        Frameless::__global__ & fg = Frameless::G();
+        Frameless::__global__ &fg = Frameless::G();
 #ifndef Q_OS_ANDROID
-        auto fl_tb = Frameless::template_windows10<Frameless::TitlebarLikeWindows10>(*dialog1,24,40);
+        auto fl_tb = Frameless::template_windows10<Frameless::TitlebarLikeWindows10>(*dialog1, 24, 40);
         fl_tb.first->allow_showMaximized = false;
         fl_tb.first->allow_showMinimized = false;
-        fl_tb.second->hide_button = {true,true,false};
-        fl_tb.second->set_title(dialog1->windowTitle());// fl_tb.second->setWindowTitle(dialog1->windowTitle());
+        fl_tb.second->hide_button = {true, true, false};
+        fl_tb.second->set_title(dialog1->windowTitle()); // fl_tb.second->setWindowTitle(dialog1->windowTitle());
         fl_tb.second->loadthemesetting();
-        if (fg.currentTheme==Frameless::Theme::Light){
-            fl_tb.second->colors[9] = QColor(219,170,240);
-        }else if (fg.currentTheme==Frameless::Theme::Dark){
-            fl_tb.second->colors[9] = QColor(82,54,95);
-        }fl_tb.second->load();
+        if (fg.currentTheme == Frameless::Theme::Light) {
+            fl_tb.second->colors[9] = QColor(219, 170, 240);
+        } else if (fg.currentTheme == Frameless::Theme::Dark) {
+            fl_tb.second->colors[9] = QColor(82, 54, 95);
+        }
+        fl_tb.second->load();
 #else
         QtAndroidCls *qac = QtAndroidCls::instance();
         auto fl_tb = Frameless::template_windows10<Frameless::TitlebarLikeAndroid>(*dialog1,qac->get_statusbar_qwiget_height());
@@ -121,47 +127,44 @@ MainWindow::MainWindow(QWidget *parent)
         // w_dialog_buttonboxs->setVisible(false);
 #endif
         // dialog1->show();
-        if (dialog1->exec()==QDialog::Accepted){
-
+        if (dialog1->exec() == QDialog::Accepted) {
         }
         delete dialog1;
-
-
     });
-
 }
 
-MainWindow::~MainWindow(){
+MainWindow::~MainWindow() {
     delete ui;
 }
 
-bool MainWindow::eventFilter(QObject *o, QEvent *e){
-    return QMainWindow::eventFilter(o,e);
+bool MainWindow::eventFilter(QObject *o, QEvent *e) {
+    return QMainWindow::eventFilter(o, e);
 }
-bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, long *result){
-    if (fl){ return fl->nativeEvent(eventType, message, result); }
+bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, long *result) {
+    if (fl) {
+        return fl->nativeEvent(eventType, message, result);
+    }
     return false;
 }
-void MainWindow::showEvent(QShowEvent *event){
+void MainWindow::showEvent(QShowEvent *event) {
     return QMainWindow::showEvent(event);
 }
-void MainWindow::loadthemesetting(){
-    Frameless::__global__ & fg = Frameless::G();
-    if (fg.currentTheme==Frameless::Theme::Light){
+void MainWindow::loadthemesetting() {
+    Frameless::__global__ &fg = Frameless::G();
+    if (fg.currentTheme == Frameless::Theme::Light) {
         ui->widget->setStyleSheet(R"(
 .QWidget,.QScrollArea{background:transparent;}
 
 )");
-    }else if (fg.currentTheme==Frameless::Theme::Dark){
+    } else if (fg.currentTheme == Frameless::Theme::Dark) {
         ui->widget->setStyleSheet(QString(R"(
 .QWidget,.QScrollArea{background:transparent;}
 
 )"));
     }
-
 }
 
-void MainWindow::closeEvent(QCloseEvent *event){
+void MainWindow::closeEvent(QCloseEvent *event) {
     QMainWindow::closeEvent(event);
     qApp->exit(0);
 }
